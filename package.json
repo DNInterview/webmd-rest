@@ -6,22 +6,17 @@
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-typescript": "^7.7.4",
+    "@types/express": "^4.17.2",
     "express": "^4.17.1"
   },
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && node dist/app.js",
-    "test:unit": "jest ./tests/unit",
-    "test:integration": "jest ./tests/integration",
+    "test:unit": "npx jest ./tests/unit",
+    "test:integration": "npx jest ./tests/integration",
     "type-check": "tsc --noEmit"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
-  },
   "devDependencies": {
-    "@types/express": "^4.17.2",
     "@types/jest": "^24.0.23",
     "axios": "^0.19.0",
     "babel-jest": "^24.9.0",

@@ -1,8 +1,19 @@
 import axios from 'axios';
+import express from 'express';
 import appPackage from '../../package.json';
-import '../../src/App';
+import { ExpressApp } from "../../src/core/web-app/ExpressApp";
 
-describe('App.ts', () => {
+describe('start.ts', () => {
+    let expressApp: ExpressApp;
+    beforeAll(async () => {
+        let app = express();
+        expressApp = new ExpressApp(app);
+        expressApp.setup();
+        await expressApp.start();
+    });
+    afterAll(async () => {
+       await expressApp.stop();
+    });
     const healthUrl = '/health';
     describe(`get ${healthUrl}`, () => {
         it('response with version number', async () => {
@@ -13,7 +24,7 @@ describe('App.ts', () => {
             };
 
             // Act
-            const response = await axios.get('healthUrl');
+            const response = await axios.get(healthUrl);
 
             // Assert
             expect(response.data).toEqual(expectedResponse);
