@@ -1,6 +1,6 @@
 import axios from 'axios';
-import appPackage from '../../package.json'
-import './src/App'
+import appPackage from '../../package.json';
+import '../../src/App';
 
 describe('App.ts', () => {
     const healthUrl = '/health';
@@ -11,6 +11,7 @@ describe('App.ts', () => {
                 healthy: true,
                 version: appPackage.version,
             };
+
             // Act
             const response = await axios.get('healthUrl');
 

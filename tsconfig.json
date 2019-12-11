@@ -2,10 +2,22 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist"
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "target": "es6",
+    "declaration": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "lib": ["es2015"]
+  "include": [
+    "src/**/*",
+    "package.json"
+  ],
+  "exclude": [
+    "node_modules",
+    "tests/**/*"
+  ]
 }

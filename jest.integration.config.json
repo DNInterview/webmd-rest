@@ -1,6 +1,6 @@
 {
   "verbose": true,
-  "testMatch": ["**/tests/integration-tests/**/*.ts?(x)"],
+  "testMatch": ["**/__integration-tests__/**/*.ts?(x)"],
   "roots": ["./src"],
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
