@@ -1,12 +1,13 @@
-import axios from 'axios';
-import express from 'express';
-import appPackage from '../../package.json';
+import supertest from 'supertest';
+import express, {Express} from 'express';
 import { ExpressApp } from "../../src/core/web-app/ExpressApp";
+import {Response} from "../test-values/HttpResponseValues";
 
 describe('start.ts', () => {
     let expressApp: ExpressApp;
+    let app: Express;
     beforeAll(async () => {
-        let app = express();
+        app = express();
         expressApp = new ExpressApp(app);
         expressApp.setup();
         await expressApp.start();
@@ -16,18 +17,18 @@ describe('start.ts', () => {
     });
     const healthUrl = '/health';
     describe(`get ${healthUrl}`, () => {
-        it('response with version number', async () => {
+        const expectedResponse = Response.getHealth;
+        const expectedStatusCode = 200;
+
+        it(`Status: ${expectedStatusCode}. Response body: ${expectedResponse}.`, async () => {
             // Arrange
-            const expectedResponse = {
-                healthy: true,
-                version: appPackage.version,
-            };
 
             // Act
-            const response = await axios.get(healthUrl);
+            const response = await supertest(app).get(healthUrl);
 
             // Assert
-            expect(response.data).toEqual(expectedResponse);
+            expect(response.body).toEqual(expectedResponse.body);
+            expect(response.status).toEqual(expectedResponse.statusCode);
         });
     });
 });
