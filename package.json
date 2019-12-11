@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "WebMD REST service",
   "dependencies": {
-    "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.7.6",
-    "@babel/preset-typescript": "^7.7.4",
     "@types/express": "^4.17.2",
     "express": "^4.17.1"
   },
@@ -20,7 +17,6 @@
     "@types/jest": "^24.0.23",
     "@types/supertest": "^2.0.8",
     "axios": "^0.19.0",
-    "babel-jest": "^24.9.0",
     "jest": "^24.9.0",
     "supertest": "^4.0.2",
     "ts-jest": "^24.2.0",
