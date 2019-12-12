@@ -22,3 +22,5 @@ run_params:
         - subnet-9a590ba4
       security_groups:
         - sg-0cf1949a55a9892f2
+      assign_public_ip: ENABLED
+
