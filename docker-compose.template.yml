@@ -1,0 +1,14 @@
+version: '3'
+services:
+  webmd-rest:
+    ports:
+      - '3000:3000'
+    image: $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/webmd-rest:$CIRCLE_TAG
+    env_file:
+      - .env
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: $LOG_GROUP
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: webmd-rest
