@@ -34,6 +34,7 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           aws-region: AWS_REGION
       - run: docker build -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/webmd-rest:$CIRCLE_TAG .
+      - run: eval $(aws ecr get-login --region us-east-1 --no-include-email)
       - run: docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/webmd-rest:$CIRCLE_TAG
 
 workflows:
