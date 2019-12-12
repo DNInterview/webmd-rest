@@ -1,6 +1,6 @@
 {
   "name": "webmd-rest",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "WebMD REST service",
   "dependencies": {
     "@types/express": "^4.17.2",
