@@ -8,7 +8,7 @@ task_definition:
   services:
     webmd-rest:
       essential: true
-      mem_limit: '768MB'
+      mem_limit: '128MB'
 run_params:
   network_configuration:
     awsvpc_configuration:
