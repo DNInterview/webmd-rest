@@ -12,7 +12,9 @@
     "test:unit": "npx jest ./tests/unit",
     "test:integration": "npx jest ./tests/integration",
     "type-check": "tsc --noEmit",
-    "deploy:patch": "npm version patch && git push --follow-tags"
+    "deploy:patch": "npm version patch && git push --follow-tags",
+    "deploy:minor": "npm version minor && git push --follow-tags",
+    "deploy:major": "npm version major && git push --follow-tags"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",
