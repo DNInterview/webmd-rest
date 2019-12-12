@@ -3,7 +3,7 @@ orbs:
   aws-cli: circleci/aws-cli@0.1.18
 
 jobs:
-  unit-test:
+  pre-deployment-tests:
     docker:
       - image: circleci/node:12
     working_directory: ~/repo
@@ -20,12 +20,36 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run test:unit
       - run: npm run test:integration
+  build:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_REGION
+      - run: docker build -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/webmd-rest:$CIRCLE_TAG .
+      - run: docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/webmd-rest:$CIRCLE_TAG
 
 workflows:
   version: 2
   provisioning:
     jobs:
-      - unit-test:
+      - pre-deployment-tests:
           filters:
             tags:
               only: /^.*/
+      - build:
+          requires:
+            - pre-deployment-tests
+          filters:
+            tags:
+              only: /^v{0,1}\d+[.]\d+[.]\d+$/
+            branches:
+              ignore: /^.*/
