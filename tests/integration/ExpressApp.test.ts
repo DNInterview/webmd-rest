@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import express, {Express} from 'express';
 import { ExpressApp } from "../../src/core/web-app/ExpressApp";
-import {Response} from "../test-values/HttpResponseValues";
+import { Response } from "../test-values/HttpResponseValues";
 
 describe('start.ts', () => {
     let expressApp: ExpressApp;
