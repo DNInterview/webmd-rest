@@ -1,0 +1,24 @@
+version: 1
+task_definition:
+  task_execution_role: ecsTaskExecutionRole
+  ecs_network_mode: awsvpc
+  task_size:
+    cpu_limit: 512
+    mem_limit: 1024
+  services:
+    webmd-rest:
+      essential: true
+      mem_limit: '768MB'
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets:
+        - subnet-08110426
+        - subnet-09ba6444
+        - subnet-1a646f46
+        - subnet-33fef154
+        - subnet-497fbe47
+        - subnet-9a590ba4
+    security_groups:
+        - sg-0cf1949a55a9892f2
+      assign_public_ip: DISABLED

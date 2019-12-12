@@ -36,6 +36,22 @@ jobs:
       - run: docker build -t $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/webmd-rest:$CIRCLE_TAG .
       - run: eval $(aws ecr get-login --region us-east-1 --no-include-email)
       - run: docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/webmd-rest:$CIRCLE_TAG
+  staging_deployment:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - aws-cli/setup:
+            aws-access-key-id: AWS_ACCESS_KEY_ID
+            aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+            aws-region: AWS_REGION
+      - run: sed 's/$AWS_ACCOUNT_ID/'"$AWS_ACCOUNT_ID"'/g; s/$CIRCLE_TAG/'"$CIRCLE_TAG"'/g; s/$LOG_GROUP/staging-webmd-rest/g' docker-compose.template.yml > docker-compose.yml
+      - run: sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+      - run: sudo chmod +x /usr/local/bin/ecs-cli
+      - run: ecs-cli configure --cluster webmd-staging --region us-east-1 --default-launch-type FARGATE --config-name webmd-rest
+      - run: ecs-cli configure profile --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY --profile-name webmd-rest
+      - run: ecs-cli compose --ecs-params ./.circleci/ecs/staging.yml --project-name webmd-rest service up --timeout 20 --create-log-groups --cluster-config webmd-rest
 
 workflows:
   version: 2
@@ -48,6 +64,14 @@ workflows:
       - build:
           requires:
             - pre-deployment-tests
+          filters:
+            tags:
+              only: /^v{0,1}\d+[.]\d+[.]\d+$/
+            branches:
+              ignore: /^.*/
+      - staging_deployment:
+          requires:
+            - build
           filters:
             tags:
               only: /^v{0,1}\d+[.]\d+[.]\d+$/
