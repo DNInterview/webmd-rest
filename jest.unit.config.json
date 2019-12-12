@@ -1,8 +1,0 @@
-{
-  "verbose": true,
-  "testMatch": ["**/tests/__unit-tests__/**/*.ts?(x)"],
-  "roots": ["./src"],
-  "transform": {
-    "^.+\\.tsx?$": "ts-jest"
-  }
-}
