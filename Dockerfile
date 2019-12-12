@@ -7,8 +7,8 @@ WORKDIR /opt/webmd-rest
 
 COPY . /opt/webmd-rest
 
-RUN yarn install --production
+RUN npm install --only=prod
 
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
