@@ -1,6 +1,6 @@
 version: 1
 task_definition:
-  task_execution_role: ecsTaskExecutionRole
+  task_execution_role: "arn:aws:iam::630770542372:role/ecsTaskExecutionRole"
   ecs_network_mode: awsvpc
   task_size:
     cpu_limit: 512
@@ -19,7 +19,6 @@ run_params:
         - subnet-33fef154
         - subnet-497fbe47
         - subnet-9a590ba4
-    security_groups:
-        - sg-0cf1949a55a9892f2
+    security_groups: "sg-0cf1949a55a9892f2"
     assign_public_ip: ENABLED
 
