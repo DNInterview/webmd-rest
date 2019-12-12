@@ -21,8 +21,7 @@ jobs:
       - run: npm run test:unit
       - run: npm run test:integration
   build:
-    docker:
-      - image: circleci/node:12
+    machine: true
     working_directory: ~/repo
     steps:
       - checkout
