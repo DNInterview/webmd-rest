@@ -10,7 +10,7 @@ export default class App implements IApp{
     async startExpress(app: Express): Promise<IWebApp> {
         const healthController = new HealthController();
         const router = new ExpressRouter(healthController);
-        const sentryWrapper = new SentryWrapper(app);
+        const sentryWrapper = new SentryWrapper();
         const expressApp = new ExpressApp(app);
         expressApp.setup(router, sentryWrapper);
         await expressApp.start();
