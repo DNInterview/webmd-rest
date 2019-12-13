@@ -1,6 +1,6 @@
 {
   "name": "webmd-rest",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "WebMD REST service",
   "dependencies": {
     "@sentry/node": "^5.10.2",
