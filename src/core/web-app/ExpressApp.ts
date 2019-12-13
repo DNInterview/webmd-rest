@@ -11,9 +11,9 @@ export default class ExpressApp implements IWebApp {
     constructor(private app: Express) {}
 
     setup(router: IExpressRouter, sentryWrapper: ISentryWrapper): void {
-        sentryWrapper.setupRequestHandler();
+        this.app.use(sentryWrapper.requestHandler());
         router.setup(this.app);
-        sentryWrapper.setupErrorHandler();
+        this.app.use(sentryWrapper.errorHandler());
     }
 
     start(): Promise<void> {

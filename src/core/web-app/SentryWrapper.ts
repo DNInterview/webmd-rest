@@ -1,21 +1,22 @@
 import {Express} from "express";
+import * as http from "http";
 
 export interface ISentryWrapper {
-    setupRequestHandler(): void
-    setupErrorHandler(): void
+    requestHandler(): (req: http.IncomingMessage, res: http.ServerResponse, next: (error?: any) => void) => void
+    errorHandler(): (req: http.IncomingMessage, res: http.ServerResponse, next: (error?: any) => void) => void
 }
 
 export default class SentryWrapper implements ISentryWrapper {
     private Sentry = require('@sentry/node');
-    constructor(private app: Express) {
+    constructor() {
         this.Sentry.init({ dsn: 'https://af94a6e74f3645afbf5597007b2ada98@sentry.io/1855763' })
     }
 
-    setupRequestHandler(): void {
-        this.app.use(this.Sentry.Handlers.requestHandler());
+    requestHandler(): (req: http.IncomingMessage, res: http.ServerResponse, next: (error?: any) => void) => void {
+        return this.Sentry.Handlers.requestHandler();
     }
 
-    setupErrorHandler(): void {
-        this.app.use(this.Sentry.Handlers.errorHandler());
+    errorHandler(): (req: http.IncomingMessage, res: http.ServerResponse, next: (error?: any) => void) => void {
+        return this.Sentry.Handlers.errorHandler();
     }
 }

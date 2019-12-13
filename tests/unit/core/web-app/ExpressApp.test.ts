@@ -17,7 +17,7 @@ describe('ExpressApp', () => {
         expressRouter = {} as IExpressRouter;
         sentryWrapper = {} as ISentryWrapper;
 
-        expressApp = new ExpressApp(app, expressRouter, sentryWrapper);
+        expressApp = new ExpressApp(app);
     });
     describe('setup()', () => {
         it('sets up Sentry requestHandler, then the routes, then Sentry error handling', async () => {
@@ -25,16 +25,19 @@ describe('ExpressApp', () => {
             const mockSentrySetupRequestHandler = jest.fn();
             const mockSentrySetupErrorHandler = jest.fn();
             const mockRouterSetup = jest.fn();
-            sentryWrapper.setupErrorHandler = mockSentrySetupErrorHandler;
-            sentryWrapper.setupRequestHandler = mockSentrySetupRequestHandler;
+            app.use = jest.fn();
+            sentryWrapper.errorHandler = mockSentrySetupErrorHandler;
+            sentryWrapper.requestHandler = mockSentrySetupRequestHandler;
             expressRouter.setup = mockRouterSetup;
 
             // Act
-            expressApp.setup();
+            expressApp.setup(expressRouter, sentryWrapper);
 
             // Assert
-            expect(sentryWrapper.setupRequestHandler).toHaveBeenCalledBefore(mockRouterSetup);
+            expect(sentryWrapper.requestHandler).toHaveBeenCalledBefore(mockRouterSetup);
             expect(expressRouter.setup).toHaveBeenCalledBefore(mockSentrySetupErrorHandler);
+            expect(app.use).toHaveBeenNthCalledWith(1, sentryWrapper.requestHandler());
+            expect(app.use).toHaveBeenNthCalledWith(2, sentryWrapper.errorHandler());
         });
     });
 });
