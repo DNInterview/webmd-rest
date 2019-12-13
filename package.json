@@ -9,7 +9,7 @@
   },
   "main": "dist/app.js",
   "scripts": {
-    "lint": "tsc && tslint src/",
+    "lint": "tsc && tslint --config ./tslint.json --project ./tsconfig.json --force --format stylish",
     "start": "tsc && node dist/src/start.js",
     "test:unit": "npx jest ./tests/unit",
     "test:integration": "npx jest ./tests/integration",
