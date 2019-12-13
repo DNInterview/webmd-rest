@@ -52,6 +52,17 @@ jobs:
       - run: ecs-cli configure --cluster webmd-staging --region us-east-1 --default-launch-type FARGATE --config-name webmd-rest
       - run: ecs-cli configure profile --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY --profile-name webmd-rest
       - run: ecs-cli compose --ecs-params ./.circleci/ecs/staging.yml --project-name webmd-rest service up --timeout 20 --create-log-groups --cluster-config webmd-rest
+  test_staging:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: npm run test:post-deployment
 
 workflows:
   version: 2
@@ -72,6 +83,14 @@ workflows:
       - staging_deployment:
           requires:
             - build
+          filters:
+            tags:
+              only: /^v{0,1}\d+[.]\d+[.]\d+$/
+            branches:
+              ignore: /^.*/
+      - test_staging:
+          requires:
+            - staging_deployment
           filters:
             tags:
               only: /^v{0,1}\d+[.]\d+[.]\d+$/
