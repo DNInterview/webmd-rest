@@ -11,6 +11,7 @@
     "start": "tsc && node dist/src/start.js",
     "test:unit": "npx jest ./tests/unit",
     "test:integration": "npx jest ./tests/integration",
+    "test:post-deployment": "npx jest ./tests/post-deployment",
     "type-check": "tsc --noEmit",
     "deploy:patch": "npm version patch && git push --follow-tags",
     "deploy:minor": "npm version minor && git push --follow-tags",

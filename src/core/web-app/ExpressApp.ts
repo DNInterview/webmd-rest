@@ -4,6 +4,7 @@ import * as http from "http";
 import appPackage from '../../../package.json'
 import { IWebApp } from './IWebApp'
 import { EXPRESS_PORT } from './WebAppConstants'
+import {GetHealthResponse} from "../../responses/GetHealthResponse";
 
 export class ExpressApp implements IWebApp {
     private server?: http.Server;
@@ -11,10 +12,8 @@ export class ExpressApp implements IWebApp {
 
     setup(): void {
         this.app.get('/health', (req, res) => {
-            res.send({
-                version: appPackage.version,
-                healthy: true,
-            });
+            const response = new GetHealthResponse(true, appPackage.version);
+            res.send(response);
         });
     }
 
