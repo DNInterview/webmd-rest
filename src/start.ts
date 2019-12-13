@@ -1,7 +1,5 @@
 import express from 'express';
-import ExpressApp from './core/web-app/ExpressApp';
+import App from './core/App';
 
-const app = express();
-const expressApp = new ExpressApp(app);
-expressApp.setup();
-expressApp.start();
+const app = new App();
+app.startExpress(express());

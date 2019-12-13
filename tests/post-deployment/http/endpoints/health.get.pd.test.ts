@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../../env/development';
-import { GetHealthResponse } from "../../../../src/responses/GetHealthResponse";
+import GetHealthResponse from "../../../../src/health/GetHealthResponse";
 import packageJson from "../../../../package.json";
 
 beforeAll(() => {

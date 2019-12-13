@@ -1,20 +1,19 @@
 import { Express } from 'express';
 import * as http from "http";
 
-import appPackage from '../../../package.json'
 import IWebApp from './IWebApp'
-import GetHealthResponse from "../../responses/GetHealthResponse";
-import {EXPRESS_PORT, HEALTH_URL} from './WebAppConstants'
+import { EXPRESS_PORT } from './WebAppConstants'
+import IExpressRouter from "./IExpressRouter";
+import {ISentryWrapper} from "./SentryWrapper";
 
 export default class ExpressApp implements IWebApp {
     private server?: http.Server;
     constructor(private app: Express) {}
 
-    setup(): void {
-        this.app.get(HEALTH_URL, (req, res) => {
-            const response = new GetHealthResponse(true, appPackage.version);
-            res.send(response);
-        });
+    setup(router: IExpressRouter, sentryWrapper: ISentryWrapper): void {
+        sentryWrapper.setupRequestHandler();
+        router.setup(this.app);
+        sentryWrapper.setupErrorHandler();
     }
 
     start(): Promise<void> {

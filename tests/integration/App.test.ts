@@ -1,17 +1,21 @@
 import supertest from 'supertest';
 import express, {Express} from 'express';
-import ExpressApp from "../../src/core/web-app/ExpressApp";
-import GetHealthResponse from "../../src/responses/GetHealthResponse";
+import GetHealthResponse from "../../src/health/GetHealthResponse";
 import packageJson from "../../package.json";
+import App from "../../src/core/App";
+import IWebApp from "../../src/core/web-app/IWebApp";
 
-describe('start.ts', () => {
-    let expressApp: ExpressApp;
+describe('App.ts', () => {
+    let expressApp: IWebApp;
     let app: Express;
     beforeAll(async () => {
         app = express();
-        expressApp = new ExpressApp(app);
-        expressApp.setup();
-        await expressApp.start();
+        const application = new App();
+        try {
+            expressApp = await application.startExpress(app);
+        } catch (e) {
+            console.log(e)
+        }
     });
     afterAll(async () => {
        await expressApp.stop();
@@ -21,7 +25,7 @@ describe('start.ts', () => {
         const expectedResponse = new GetHealthResponse(true, packageJson.version);
         const expectedStatusCode = 200;
 
-        it(`Status: ${expectedStatusCode}. Response body: ${expectedResponse}.`, async () => {
+        it(`Status: ${expectedStatusCode}. Response body: ${JSON.stringify(expectedResponse)}.`, async () => {
             // Arrange
 
             // Act
