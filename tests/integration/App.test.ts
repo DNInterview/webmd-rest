@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import express, {Express} from 'express';
 import GetHealthResponse from "../../src/health/GetHealthResponse";
 import packageJson from "../../package.json";
-import App from "../../src/core/App";
+import App from "../../src/core/app/App";
 import IWebApp from "../../src/core/web-app/IWebApp";
 
 describe('App.ts', () => {

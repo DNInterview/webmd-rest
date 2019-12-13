@@ -1,3 +1,3 @@
 export default class GetHealthResponse {
-    constructor(private healthy: Boolean, private version: String) {}
+    constructor(readonly healthy: boolean, readonly version: string) {}
 }
