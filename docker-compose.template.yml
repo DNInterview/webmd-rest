@@ -3,6 +3,8 @@ services:
   webmd-rest:
     ports:
       - '3000:3000'
+    env_file:
+      - .env
     image: $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/webmd-rest:$CIRCLE_TAG
     logging:
       driver: awslogs
