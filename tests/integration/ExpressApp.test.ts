@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import express, {Express} from 'express';
-import { ExpressApp } from "../../src/core/web-app/ExpressApp";
-import { GetHealthResponse } from "../../src/responses/GetHealthResponse";
+import ExpressApp from "../../src/core/web-app/ExpressApp";
+import GetHealthResponse from "../../src/responses/GetHealthResponse";
 import packageJson from "../../package.json";
 
 describe('start.ts', () => {

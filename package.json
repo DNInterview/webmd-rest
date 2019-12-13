@@ -3,6 +3,7 @@
   "version": "1.0.30",
   "description": "WebMD REST service",
   "dependencies": {
+    "@sentry/node": "^5.10.2",
     "@types/express": "^4.17.2",
     "express": "^4.17.1"
   },
